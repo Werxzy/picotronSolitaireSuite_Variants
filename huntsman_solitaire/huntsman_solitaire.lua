@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-26 23:51:30",revision=3277]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-26 04:14:55",revision=3266]]
 
 function game_load() -- !!! start of game load function
 -- this is to prevent overwriting of game modes
@@ -55,7 +55,6 @@ function game_setup()
 	
 	local x_offset = 70
 	
-	-- tableau
 	stacks_supply = {}
 	for i = 1,tableau_width do
 		add(stacks_supply, stack_new(
@@ -108,11 +107,11 @@ function game_setup()
 	
 	-- rules cards 
 	rule_cards = rule_cards_new(306, 192, game_info(), "top")
-	rule_cards.y_smooth = smooth_val(270, 0.8, 0.09, 0.0001)
+	rule_cards.y_smooth = smooth_val(300, 0.8, 0.09, 0.0001)
 	rule_cards.on_off = false
 	local old_update = rule_cards.update
 	rule_cards.update = function(rc)
-		rc.y = rc.y_smooth(rc.on_off and 192.5 or 280.5)
+		rc.y = rc.y_smooth(rc.on_off and 192.5 or 300.5)
 		old_update(rc)
 	end
 	
