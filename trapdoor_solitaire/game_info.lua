@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-25 02:14:11",modified="2024-03-26 22:03:36",revision=135]]
+--[[pod_format="raw",created="2024-03-25 02:14:11",modified="2024-03-29 03:58:34",revision=146]]
 
 function game_info()
 	return {
@@ -13,6 +13,7 @@ function game_info()
 			"\tWithin a suit, Aces can be placed on any card, and any card can be placed on an Ace. (1 does not count as an Ace)",
 			"\tWhen part of a larger stack, Aces are counted as if they were not there, and Stacks can be moved even with Aces within them.",
 			"\tTo win, create an ordered stack for each of the 4 suits ranging from 9 to 1",
-		}
+		},
+		api_version = 1
 	}
 end
