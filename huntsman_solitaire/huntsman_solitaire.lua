@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-28 20:19:00",revision=3312]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-30 00:16:58",revision=3320]]
 
 function game_load() -- !!! start of game load function
 -- this is to prevent overwriting of game modes
@@ -151,7 +151,9 @@ end
 
 -- deals the cards out
 function game_setup_anim()
-
+	deck_reserve.has_been_emptied = false
+	deck_stack.has_been_emptied = false
+	
 	is_setting_up = true
 
 	-- deal out goal cards
@@ -207,10 +209,7 @@ function game_setup_anim()
 end
 
 -- places all the cards back onto the main deck
-function game_reset_anim()
-	deck_reserve.has_been_emptied = false
-	deck_stack.has_been_emptied = false
-	
+function game_reset_anim()	
 	for c in all(deck_stack.cards) do 
 		c.a_to = 0.5
 	end
