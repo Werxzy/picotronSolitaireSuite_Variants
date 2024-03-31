@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-03-31 21:36:27",revision=3231]]
+--[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-03-31 22:11:44",revision=3239]]
 
 function game_load() -- !!! start of game load function
 	-- this is to prevent overwriting of game modes
@@ -89,7 +89,7 @@ function game_setup()
 		cards_coroutine = cocreate(game_reset_anim)
 	end)
 	
-	button_simple_text("Exit", 6, 248, suite_exit_game)
+	button_simple_text("Exit", 6, 248, suite_exit_game).always_active = true
 
 	-- rules cards 
 	rule_cards = rule_cards_new(135, 192, game_info(), "right")
