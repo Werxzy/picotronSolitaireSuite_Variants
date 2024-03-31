@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-30 00:16:58",revision=3320]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-03-31 21:50:43",revision=3500]]
 
 function game_load() -- !!! start of game load function
 -- this is to prevent overwriting of game modes
@@ -213,8 +213,10 @@ function game_reset_anim()
 	for c in all(deck_stack.cards) do 
 		c.a_to = 0.5
 	end
-
-	for a in all{stacks_supply, stack_goals, {deck_playable}, {deck_reserve}} do
+	
+	deck_stack.has_been_emptied = false
+	
+	for a in all{stacks_supply, stack_goals, {deck_reserve}} do
 		for s in all(a) do
 			while #s.cards > 0 do
 				local c = get_top_card(s)
@@ -256,50 +258,6 @@ function game_shuffle_anim()
 	del(stacks_all, temp_stack)
 	
 	pause_frames(20)
-end
-
--- goes through each card and plays a card where it expects
--- easier than double clicking each card
-function game_auto_place_anim()
-	local found = true
-	
-	local function find_placement(stack)
-		-- create temp stack with top card
-		local card = get_top_card(stack)
-		if not card then
-			return
-		end
-		local temp_stack = unstack_cards(card)
-	
-		-- check with each goal stack if card can be placed
-		for g in all(stack_goals) do
-			if g:can_stack(temp_stack) then
-				found = true
-				card.a_to = 0
-				stack_cards(g, temp_stack)
-				break
-			end
-		end
-		
-		-- return card to original stack
-		if not found then
-			stack_cards(stack, temp_stack)
-		end
-	end
-	
-	while found do
-		found = false
-		for i = #stacks_supply, 1, -1 do
-			find_placement(stacks_supply[i])
-			if found then
-				break
-			end
-		end
-		if not found then
-			find_placement(deck_playable)
-		end
-		pause_frames(6)
-	end
 end
 
 function game_action_resolved()
