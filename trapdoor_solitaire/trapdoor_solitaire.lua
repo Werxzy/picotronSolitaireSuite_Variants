@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-03-31 22:58:48",revision=3268]]
+--[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-04-01 03:10:56",revision=3272]]
 
 function game_load() -- !!! start of game load function
 	-- this is to prevent overwriting of game modes
@@ -69,7 +69,7 @@ function game_setup()
 			i*(card_width + card_gap*2) + card_gap + 40, card_gap + 10, 
 			stack_repose_normal(),
 			true, stack_can_rule, 
-			stack_on_click_unstack(unstack_rule_decending), stack_on_double_goal))	
+			stack_on_click_unstack(unstack_rule_decending)))	
 	end
 	
 	
@@ -217,31 +217,6 @@ function deck_draw_anim()
 		end
 	end
 end
-
---[[
-function stack_on_double_goal(card)
-	-- only accept top card (though could work with multiple cards
-	if card and card_is_top(card) then 
-		local old_stack = card.stack
-		-- create a temporary stack
-		local temp_stack = unstack_cards(card)
-		
-		-- attempt to place on each of the goal stacks
-		for g in all(stack_goals) do
-			if g:can_stack(temp_stack) then
-				stack_cards(g, temp_stack)
-				temp_stack = nil
-				break
-			end
-		end
-			
-		-- if temp stack still exists, then return card to original stack
-		if temp_stack then
-			stack_cards(old_stack, temp_stack)
-		end
-	end
-end
-]]
 
 function unstack_rule_decending(card)
 	local s = card.stack.cards
