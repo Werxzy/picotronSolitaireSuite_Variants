@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-03-28 20:19:00",revision=3167]]
+--[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-03-31 22:58:48",revision=3268]]
 
 function game_load() -- !!! start of game load function
 	-- this is to prevent overwriting of game modes
@@ -79,15 +79,6 @@ function game_setup()
 		stack_repose_static(-0.16),
 		true, stack_can_on_deck, stack_on_click_reveal)
 	
-	--[[
-	deck_playable = stack_new(
-		{5},
-		card_gap + 10, card_height + card_gap*3 + 10,
-		stack_repose_static(2),
-		true, stack_can_on_deck, stack_on_click_unstack(card_is_top), stack_on_double_goal)
-	]]--
-	
-
 	while #unstacked_cards > 0 do
 		local c = rnd(unstacked_cards)
 		stack_add_card(deck_stack, c, unstacked_cards)
@@ -98,7 +89,7 @@ function game_setup()
 		cards_coroutine = cocreate(game_reset_anim)
 	end)
 	
-	button_simple_text("Exit", 6, 248, suite_exit_game)
+	button_simple_text("Exit", 6, 248, suite_exit_game).always_active = true
 
 	-- rules cards 
 	rule_cards = rule_cards_new(135, 192, game_info(), "right")
@@ -143,91 +134,9 @@ end
 
 -- places all the cards back onto the main deck
 function game_reset_anim()
-	for a in all{stacks_supply, stack_goals, {deck_playable}} do
-		for s in all(a) do
-			while #s.cards > 0 do
-				local c = get_top_card(s)
-				stack_add_card(deck_stack, c)
-				c.a_to = 0.5
-				pause_frames(3)
-			end
-		end
-	end
-	
-	pause_frames(35)
-	
-	game_shuffle_anim()
-	game_shuffle_anim()
-	game_shuffle_anim()
+	stack_collecting_anim(deck_stack, stacks_supply)
 	
 	game_setup_anim()
-end
-
--- physically shuffle the cards
-function game_shuffle_anim()
-	local temp_stack = stack_new(
-		nil, deck_stack.x_to + card_width + 4, deck_stack.y_to, 
-		stack_repose_static(-0.16), 
-		false, stack_cant, stack_cant)
-		
-	for i = 1, rnd(10)-5 + #deck_stack.cards/2 do
-		stack_add_card(temp_stack, get_top_card(deck_stack))
-	end
-	
-	pause_frames(30)
-	
-	for c in all(temp_stack.cards) do
-		stack_add_card(deck_stack, c, rnd(#deck_stack.cards+1)\1+1)
-	end
-	for c in all(deck_stack.cards) do
-		card_to_top(c)
-	end
-	del(stacks_all, temp_stack)
-	
-	pause_frames(20)
-end
-
--- goes through each card and plays a card where it expects
--- easier than double clicking each card
-function game_auto_place_anim()
-	local found = true
-	
-	local function find_placement(stack)
-		-- create temp stack with top card
-		local card = get_top_card(stack)
-		if not card then
-			return
-		end
-		local temp_stack = unstack_cards(card)
-	
-		-- check with each goal stack if card can be placed
-		for g in all(stack_goals) do
-			if g:can_stack(temp_stack) then
-				found = true
-				stack_cards(g, temp_stack)
-				break
-			end
-		end
-		
-		-- return card to original stack
-		if not found then
-			stack_cards(stack, temp_stack)
-		end
-	end
-	
-	while found do
-		found = false
-		for i = #stacks_supply, 1, -1 do
-			find_placement(stacks_supply[i])
-			if found then
-				break
-			end
-		end
-		if not found then
-			find_placement(deck_playable)
-		end
-		pause_frames(6)
-	end
 end
 
 function stack_can_on_deck(stack, stack2)
