@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-25 02:14:11",modified="2024-03-29 03:58:34",revision=146]]
+--[[pod_format="raw",created="2024-03-25 02:14:11",modified="2024-06-01 21:14:04",revision=148]]
 
 function game_info()
 	return {
@@ -14,6 +14,6 @@ function game_info()
 			"\tWhen part of a larger stack, Aces are counted as if they were not there, and Stacks can be moved even with Aces within them.",
 			"\tTo win, create an ordered stack for each of the 4 suits ranging from 9 to 1",
 		},
-		api_version = 1
+		api_version = 2
 	}
 end
