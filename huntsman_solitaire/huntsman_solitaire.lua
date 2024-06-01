@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-05-31 22:59:20",revision=3582]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-05-31 23:55:39",revision=3631]]
 
 function game_load() -- !!! start of game load function
 -- this is to prevent overwriting of game modes
@@ -60,35 +60,46 @@ function game_setup()
 		add(stacks_supply, stack_new(
 			{5},
 			i*(card_width + card_gap*2) + card_gap + x_offset, card_gap + card_height + 10, 
-			stack_repose_normal(nil,nil,160),
-			true, stack_can_rule, 
-			stack_on_click_unstack(unstack_rule_decending, unstack_rule_face_up), stack_on_double_goal))
+			{
+				reposition = stack_repose_normal(nil,nil,160),
+				can_stack = stack_can_rule,
+				on_click = stack_on_click_unstack(unstack_rule_decending, unstack_rule_face_up),
+				on_double = stack_on_double_goal}
+			))
 	end
 	
 	-- foundation piles
 	stack_goals = {}
 	for i = 0,3 do
 		add(stack_goals, stack_new(
-			{5},
-			(i+1)*(card_width + card_gap*2) + card_gap + x_offset,
 			5,
-			stack_repose_foundations,
-			true, stack_can_goal, stack_cant))
+			(i+1)*(card_width + card_gap*2) + card_gap + x_offset, 5,
+			{
+				reposition = stack_repose_foundations,
+				can_stack = stack_can_goal
+			}))
 	end
 	
 	-- draw pile
 	deck_stack = stack_new(
 		{5},
 		x_offset+(5)*(card_width + card_gap*2)+10, card_height - 30,
-		stack_repose_deck,
-		true, stack_can_on_deck, stack_on_click_reveal)
+		{
+			reposition = stack_repose_deck,
+			can_stack = stack_can_on_deck, 
+			on_click = stack_on_click_reveal
+		})
 	
 	-- reserve pile
 	deck_reserve = stack_new(
 		{5},
 		x_offset-card_gap, card_height - 30,
-		stack_repose_reserve,
-		true, stack_can_on_deck, stack_on_click_reserve, stack_on_double_goal)
+		{
+			reposition = stack_repose_reserve,
+			can_stack = stack_can_on_deck, 
+			on_click = stack_on_click_reserve, 
+			on_double = stack_on_double_goal
+		})
 	
 	while #unstacked_cards > 0 do
 		local c = rnd(unstacked_cards)
