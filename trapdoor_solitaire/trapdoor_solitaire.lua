@@ -1,7 +1,5 @@
---[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-05-31 23:55:38",revision=3327]]
+--[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-06-04 04:54:30",revision=3329]]
 
-function game_load() -- !!! start of game load function
-	-- this is to prevent overwriting of game modes
 
 include "suite_scripts/rolling_score.lua"
 include "suite_scripts/confetti.lua"
@@ -328,6 +326,4 @@ function game_count_win()
 	game_save.wins += 1
 	suite_store_save(game_save)
 	cards_coroutine = cocreate(game_win_anim)
-end
-
 end
