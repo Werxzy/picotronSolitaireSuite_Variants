@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-25 02:12:03",modified="2024-06-01 21:13:47",revision=1553]]
+--[[pod_format="raw",created="2024-03-25 02:12:03",modified="2024-06-17 09:59:34",revision=1555]]
 
 function game_info()
 	return {
@@ -16,6 +16,10 @@ function game_info()
 			"\tCards can be stacked on both the draw deck, and/or reserve deck, when they have no cards remaining.",
 			"\tTo win, match four-of-a-kind on each of the cards on the top of the tableau.",
 			},
+		desc_score = {
+			format = "Wins : %i",
+			param = {"wins"}
+		},
 		api_version = 2,
 		order = 4
 	}
