@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-06-19 15:43:15",revision=3786]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-06-20 15:33:02",revision=3821]]
 
 include "suite_scripts/confetti.lua"
 include "cards_api/card_gen.lua"
@@ -136,7 +136,12 @@ function game_setup()
 	end	
 	wins_button:update_val()
 
+	-- extra delay to wait for the transition
+	cards_api_coroutine_add(cocreate(
+		function() pause_frames(50) end
+	))
 	cards_api_coroutine_add(cocreate(game_setup_anim))
+	card_position_reset_all()
 end
 
 -- checks each foundation pile for a unique rank
