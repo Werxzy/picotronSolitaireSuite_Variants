@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-06-20 15:33:02",revision=3821]]
+--[[pod_format="raw",created="2024-03-22 19:08:40",modified="2024-06-24 17:23:32",revision=3832]]
 
 include "suite_scripts/confetti.lua"
 include "cards_api/card_gen.lua"
@@ -56,6 +56,7 @@ function game_setup()
 	end
 	
 	local unstacked_cards = {}
+	local cards_all = get_all_cards()
 	for c in all(cards_all) do
 		add(unstacked_cards, c)
 	end
@@ -235,7 +236,7 @@ function game_reset_anim()
 end
 
 function game_action_resolved()
-	if not held_stack then
+	if not get_held_stack() then
 		for s in all(stacks_supply) do
 			local c = get_top_card(s)
 			if(c) c.a_to = 0
@@ -254,16 +255,14 @@ function game_action_resolved()
 			end
 		end
 		
-		if not held_stack then
-			if #deck_reserve.cards==0 then 
-				deck_reserve.has_been_emptied = true
-			end
-			
-			-- set the deck to be fully empty
-			if #deck_stack.cards==0 then 
-				deck_stack.has_been_emptied=true
-			end	
+		if #deck_reserve.cards==0 then 
+			deck_reserve.has_been_emptied = true
 		end
+		
+		-- set the deck to be fully empty
+		if #deck_stack.cards==0 then 
+			deck_stack.has_been_emptied=true
+		end	
 	end
 end
 

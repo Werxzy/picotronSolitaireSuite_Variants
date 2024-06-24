@@ -1,4 +1,4 @@
---[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-06-20 15:33:02",revision=3510]]
+--[[pod_format="raw",created="2024-03-17 19:21:13",modified="2024-06-24 17:51:12",revision=3641]]
 
 
 include "suite_scripts/confetti.lua"
@@ -66,6 +66,7 @@ function game_setup()
 	local card_gap = 4
 	
 	local unstacked_cards = {}
+	local cards_all = get_all_cards()
 	for c in all(cards_all) do
 		add(unstacked_cards, c)
 	end
@@ -167,7 +168,7 @@ end
 -- determines if stack2 can be placed on stack
 -- for solitaire rules like decending ranks and alternating suits
 function stack_can_rule(stack, stack2)
-	if s == held_stack then
+	if s == get_held_stack() then
 		return false
 	end
 	if #stack.cards == 0 then
@@ -186,10 +187,10 @@ end
 
 -- expects to be stacked from ace to king with the same suit
 function stack_can_goal(stack, stack2)
-	if stack == held_stack then
+	if stack == get_held_stack() then
 		return false
 	end
-	--
+
 	if #stack2.cards ~= 1 then
 		return false
 	end
@@ -210,11 +211,11 @@ function stack_can_goal(stack, stack2)
 end
 
 function stack_on_click_reveal(card)
-    if #deck_stack.cards>1 then
-        cards_api_coroutine_add(cocreate(deck_draw_anim))
-    elseif card then
-      held_stack = unstack_cards(card)
-    end
+	if #deck_stack.cards>1 then
+		cards_api_coroutine_add(cocreate(deck_draw_anim))
+	elseif card then
+		set_held_stack(unstack_cards(card))
+	end
 end
 
 function deck_draw_anim()
