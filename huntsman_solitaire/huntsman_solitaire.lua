@@ -383,7 +383,7 @@ end
 
 -- when the draw pile is clicked
 function stack_on_click_reveal(card)
-	if deck_stack.has_been_emptied then -- todo put this in reset
+	if deck_stack.has_been_emptied then
 		stack_on_click_unstack(unstack_rule_decending)(card)
 	else
 		cards_api_coroutine_add(cocreate(deck_draw_anim))
