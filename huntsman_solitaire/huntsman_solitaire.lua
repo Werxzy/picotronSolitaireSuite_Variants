@@ -23,8 +23,6 @@ all_suit_colors = {
 
 rank_count = 13 -- adjustable
 
-cards_api_shadows_enable(true)
-
 function game_setup()
 
 	-- save data is based on lua file's name
@@ -119,7 +117,7 @@ function game_setup()
 		text = "New Game",
 		colors = {12, 16, 1}, 
 		on_click = function()
-			cards_api_coroutine_add(cocreate(game_reset_anim))
+			cards_api_coroutine_add(game_reset_anim)
 		end
 	})
 	
@@ -136,7 +134,7 @@ function game_setup()
 	end	
 	wins_button:update_val()
 
-	cards_api_coroutine_add(cocreate(game_setup_anim))
+	cards_api_coroutine_add(game_setup_anim)
 	card_position_reset_all()
 end
 
@@ -278,7 +276,7 @@ function game_count_win()
 	game_save.wins += 1
 	wins_button:update_val()
 	suite_store_save(game_save)
-	cards_api_coroutine_add(cocreate(game_win_anim))
+	cards_api_coroutine_add(game_win_anim)
 end
 
 function stack_repose_deck(stack)
@@ -382,7 +380,7 @@ function stack_on_click_reveal(card)
 	if deck_stack.has_been_emptied then
 		stack_on_click_unstack(unstack_rule_decending)(card)
 	else
-		cards_api_coroutine_add(cocreate(deck_draw_anim))
+		cards_api_coroutine_add(deck_draw_anim)
    end
 end
 
