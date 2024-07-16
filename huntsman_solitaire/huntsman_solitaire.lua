@@ -216,6 +216,8 @@ function game_reset_anim()
 	deck_stack.has_been_emptied = false
 	
 	stack_collecting_anim(deck_stack, stacks_supply, stack_goals, deck_reserve)
+	pause_frames(35)
+	stack_standard_shuffle_anim(deck_stack)
 	
 	game_setup_anim()
 end

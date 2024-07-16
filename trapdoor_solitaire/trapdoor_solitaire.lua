@@ -136,6 +136,8 @@ function game_reset_anim()
 		c.a_to = 0.5
 	end
 	stack_collecting_anim(deck_stack, stacks_supply)
+	pause_frames(35)
+	stack_standard_shuffle_anim(deck_stack)
 	
 	game_setup_anim()
 end
